@@ -1,0 +1,37 @@
+<div class="search-wrapper">
+  <div class="header">
+    <div class="search d-flex align-items-center">
+      <mat-form-field>
+        <input matInput type="text" [(ngModel)]="searchValue" placeholder="Search..." (keyup.enter)="search()">
+      </mat-form-field>
+      <div class="search-button ms-2" (click)="search()">
+        <app-icon height="25px" width="25px" icon="/assets/icons/search.svg" color="#2B2D2E"></app-icon>
+      </div>
+    </div>
+    <div class="header-buttons">
+      <button mat-raised-button class="confirm-button" color="warn" (click)="onConfirm()">Confirm and exit</button>
+      <button mat-raised-button class="clear-button" (click)="onClear()">Clear</button>
+    </div>
+  </div>
+
+  <div class="content" *ngIf="this.data && this.data.length > 0">
+    <div class="content-cards">
+      <div class="card-wrapper" *ngFor="let item of this.data">
+        <mat-checkbox
+          (change)="onItemSelect($event, item)"
+          [checked]="isInItemList(item)"
+          color="warn"></mat-checkbox>
+        <app-user-card [user]="item"></app-user-card>
+      </div>
+    </div>
+    <mat-paginator
+      [length]="this.pagingOptions?.length"
+      [pageSize]="this.pagingOptions?.pageSize"
+      [pageIndex]="this.pagingOptions?.pageIndex"
+      [pageSizeOptions]="this.pageSizeOptions"
+      (page)="onPaginationOptionsChange($event)"
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+
+</div>

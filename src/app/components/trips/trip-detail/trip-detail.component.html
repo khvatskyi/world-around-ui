@@ -1,0 +1,68 @@
+<div class="content">
+
+    <div class="header">
+        <div class="name">
+            <h2 *ngIf="!edittingName">{{trip?.name}}</h2>
+            <input *ngIf="edittingName" type="text" [(ngModel)]="name" (keyup.enter)="editName()">
+            <app-icon *ngIf="trip?.authorId == userId && !edittingName" icon="/assets/icons/pencil.svg" color="black"
+                width="25px" height="25px" matTooltip="Edit name" (click)="toggleNameEdit()">
+            </app-icon>
+            <app-icon *ngIf="edittingName" icon="/assets/icons/x-lg.svg" color="red" width="25px" height="25px"
+                matTooltip="Cancel edit" (click)="toggleNameEdit()">
+            </app-icon>
+            <app-icon *ngIf="edittingName" icon="/assets/icons/check-lg.svg" color="green" width="25px" height="25px"
+                matTooltip="Save name" (click)="editName()">
+            </app-icon>
+        </div>
+
+        <div *ngIf="trip?.authorId == userId" class="header-buttons">
+            <app-icon icon="/assets/icons/trash-fill.svg" color="red" width="30px" height="30px"
+                matTooltip="Delete trip" (click)="openDeleteTripPopup()"></app-icon>
+        </div>
+    </div>
+
+    <div class="map-container">
+        <app-map mapId="trip-detail-map" width="940px" height="600px" [mapMode]="mapMode" (mapClick)="updateCurrentPinCoords($event)"></app-map>
+    </div>
+
+    <h5 class="info-section">Description</h5>
+    <div class="description">
+        <p *ngIf="!edittingDescription">{{trip?.description}}</p>
+        <textarea *ngIf="edittingDescription" type="text" [(ngModel)]="description"
+            (keyup.enter)="editDescription()"></textarea>
+        <app-icon *ngIf="trip?.authorId == userId && !edittingDescription" icon="/assets/icons/pencil.svg" color="black"
+            width="25px" height="25px" matTooltip="Edit description" (click)="toggleDescriptionEdit()">
+        </app-icon>
+        <app-icon *ngIf="edittingDescription" icon="/assets/icons/x-lg.svg" color="red" width="25px" height="25px"
+            matTooltip="Cancel edit" (click)="toggleDescriptionEdit()">
+        </app-icon>
+        <app-icon *ngIf="edittingDescription" icon="/assets/icons/check-lg.svg" color="green" width="25px" height="25px"
+            matTooltip="Save description" (click)="editDescription()">
+        </app-icon>
+    </div>
+
+    <h5 class="info-section">Pins</h5>
+    <div class="pin" *ngFor="let tripPin of trip?.pins">
+        <div>
+            <div class="pin-name">
+                <h6>{{tripPin.seqNo}})</h6>
+                <h6 *ngIf="pin.id!=tripPin.id">{{tripPin.name}}</h6>
+                <input *ngIf="pin.id==tripPin.id" type="text" [(ngModel)]="pin.name">
+                <h6>({{ pin.id==tripPin.id ? pin.latitude : tripPin.latitude}}, {{pin.id==tripPin.id ? pin.longitude :tripPin.longitude}})</h6>
+            </div>
+
+            <p *ngIf="pin.id!=tripPin.id">{{tripPin.description}}</p>
+            <textarea *ngIf="pin.id==tripPin.id" [(ngModel)]="pin.description"></textarea>
+        </div>
+        <div class="pin-buttons">
+            <app-icon class="edit" *ngIf="trip?.authorId == userId && !edittingPin" width="20px" height="20px"
+                color="black" icon="/assets/icons/pencil.svg" (click)="togglePinEdit(tripPin.id)"></app-icon>
+            <app-icon *ngIf="pin.id==tripPin.id" width="20px" height="20px" color="red" icon="/assets/icons/x-lg.svg"
+                (click)="togglePinEdit(0)" matTooltip="Cancel edit"></app-icon>
+            <app-icon *ngIf="pin.id==tripPin.id" width="20px" height="20px" color="green"
+                icon="/assets/icons/check-lg.svg" (click)="pinEdit()" matTooltip="Save pin"></app-icon>
+        </div>
+    </div>
+
+    <app-comment-section [targetType]="0" [targetId]="tripId"></app-comment-section>
+</div>

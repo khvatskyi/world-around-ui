@@ -1,0 +1,10 @@
+<div class="subheader">
+    <div routerLink="/trips/create">
+        <p>Create new trip</p>
+        <div class="plus"></div>
+    </div>
+</div>
+<div class="content">
+    <app-map height="600px" width="940px" mapId="trips-info-map"></app-map>
+    <app-trips-grid height="544px" [userId]="userId" [autoLoad]="false" (tripClick)="showTrip($event)" [includePins]="true"></app-trips-grid>
+</div>

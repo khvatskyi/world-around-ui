@@ -1,0 +1,42 @@
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;;   
+}
+
+.images {
+    display: flex;
+    width: 1000px;
+    justify-content: space-around;
+}
+
+.image {
+    height: 300px;
+    width: 300px;
+    margin-bottom: 20px;
+    background-size: cover;
+    border: 3px solid black;
+}
+
+.image1 {
+    background-image: url("/assets/images/hiking-gold.jpg");
+}
+
+.image2 {
+    background-image: url("/assets/images/dark-hiking.jpg");
+}
+
+.image3 {
+    background-image: url("/assets/images/hiking.jpg");
+}
+
+h1 {
+    width: 550px;
+    text-align: center;
+}
+
+
+.tooltip-container {
+    width: 300px;
+}

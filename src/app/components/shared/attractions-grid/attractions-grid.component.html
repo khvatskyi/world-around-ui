@@ -1,0 +1,10 @@
+<div class="main">
+<div class="content">
+    <div *ngFor="let attraction of attractions">
+        <app-attraction-card [attraction]="attraction"></app-attraction-card>
+    </div>
+</div>
+<mat-paginator [length]="length" [pageSize]="params.pageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="updatePage($event)" aria-label="Select page" [style.width]="width">
+</mat-paginator>
+</div>

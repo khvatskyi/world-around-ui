@@ -1,0 +1,67 @@
+.image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.comments {
+    padding-bottom: 20px;
+    width: 940px;
+}
+
+.comment {
+    display: flex;
+    margin-bottom: 20px;
+
+    &-name {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    &-text {
+        width: 627px;
+    }
+
+    &-child {
+        margin-left: 70px;
+
+        &-text {
+            width: 557px;
+        }
+    }
+
+    &-buttons {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+
+        app-icon {
+            margin-right: 10px;
+        }
+    }
+
+    &-add {
+        width: 940px;
+        display: flex;
+        margin-bottom: 20px;
+
+        &>textarea {
+            width: 500px;
+            margin-right: 20px;
+        }
+    }
+}
+
+.reply {
+    textarea {
+        width: 440px;
+    }
+
+    button {
+        margin-right: 10px;
+        width: 73px;
+    }
+}

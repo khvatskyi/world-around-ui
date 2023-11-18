@@ -1,0 +1,36 @@
+.trip {
+
+    &s {
+        overflow-y: auto;
+    }
+
+    border-bottom: #2B2D2E solid 1px;
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:hover {
+        border: #2B2D2E solid 1px;
+    }
+
+    &-info {
+        cursor: pointer;
+        width: 91%;
+    }
+
+    &-arrow {
+        width: 50px;
+        height: 50px;
+        background-color: #2B2D2E;
+        -webkit-mask-image: url("/assets/icons/arrow-right-square.svg");
+        mask-image: url("/assets/icons/arrow-right-square.svg");
+        mask-size: cover;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #B9C2C7;
+        }
+    }
+}

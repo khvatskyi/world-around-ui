@@ -1,0 +1,61 @@
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.events-wrapper {
+  margin-top: 20px;
+  min-width: 1000px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  &>* {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .mat-checkbox {
+      font-size: larger;
+    }
+
+    &>button {
+      width: 200px;
+      height: 60px;
+      font-size: larger;
+      color: white;
+      background: #2b2d2e;
+      transition: 0.2s;
+
+      border-radius: 200px;
+
+      &:hover {
+        background: rosybrown;
+      }
+    }
+  }
+
+  .events-content {
+    margin-top: 50px;
+    margin-left: 0px;
+    margin-right: 0px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    &>.card {
+      margin-bottom: 50px;
+      transition: 0.2s;
+      margin-left: 10px;
+      margin-right: 10px;
+
+      &:hover {
+        margin-top: -20px;
+        margin-bottom: 70px;
+      }
+    }
+  }
+}

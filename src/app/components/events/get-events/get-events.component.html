@@ -1,0 +1,24 @@
+<div class="events-wrapper">
+  <div class="header">
+    <mat-checkbox [(ngModel)]="this.isOwner" (change)="onCheckBoxClick()">
+      Created by me
+    </mat-checkbox>
+    <button routerLink="/events/create" mat-raised-button>
+      <span>Create new</span>
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <div class="events-content" *ngIf="this.cardModels.length > 0">
+    <app-card class="card" *ngFor="let card of this.cardModels" [model]="card" (click)="onCardClick(card.id)">
+    </app-card>
+  </div>
+
+  <mat-paginator *ngIf="this.cardModels.length > 0"
+  [length]="this.model.pageInfo?.length"
+  [pageSize]="this.model.pageInfo?.pageSize"
+  [pageSizeOptions]="this.pageSizeOptions"
+  (page)="onPaginationOptionsChange($event)"
+  aria-label="Select page">
+</mat-paginator>
+</div>

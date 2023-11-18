@@ -1,0 +1,14 @@
+<div class="trips" [style.width]="width" [style.height]="height">
+    <div class="trip" *ngFor="let trip of trips">
+        <div class="trip-info" (click)="onTripClick(trip)">
+            <h2>{{trip.name}}</h2>
+            <p>Created: {{trip.createDate | date:'medium'}}</p>
+            <p class="trip-description">{{trip.description}}</p>
+        </div>
+        <div class="trip-arrow" [routerLink]="['/trip', trip.id]"></div>
+    </div>
+</div>
+
+<mat-paginator [length]="length" [pageSize]="params.pageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="updatePage($event)" aria-label="Select page" [style.width]="width">
+</mat-paginator>

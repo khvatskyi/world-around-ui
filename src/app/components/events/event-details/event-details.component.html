@@ -1,0 +1,61 @@
+<mat-spinner *ngIf="this.pending; else elseBlock"></mat-spinner>
+<ng-template #elseBlock>
+  <div class="event-details">
+    <div>
+      <div>
+        <div class="event-details-title">
+          <h1>{{this.model.title}}</h1>
+          <h4>Date created: {{this.model.createDate | date: "dd/MM/yyyy"}}</h4>
+        </div>
+      </div>
+      <div class="info">
+        <img *ngIf="this.model.image; else noImage" class="event-image" [src]="this.model.image" alt="">
+        <ng-template #noImage>
+        <img class="not-available-image" src="https://demofree.sirv.com/nope-not-here.jpg" alt="">
+        </ng-template>
+        <div class="info-parts">
+          <div>
+            <span>Start date:</span>
+            <span>{{this.model.startDate | date: "dd/MM/yyyy"}}</span>
+          </div>
+          <div *ngIf="this.model.endDate">
+            <span>End date:</span>
+            <span>{{this.model.endDate | date: "dd/MM/yyyy"}}</span>
+          </div>
+          <div>
+            <span>Number of participants:</span>
+            <span>{{this.model.participants.length}}</span>
+          </div>
+          <div>
+            <span>Author:</span>
+            <span>{{this.model.author}}</span>
+          </div>
+          <div>
+            <span>Description:</span>
+            <span>
+              {{this.model.description}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="chip">
+      <div class="chip-title">
+        <h3>Places of interest</h3>
+      </div>
+      <mat-chip-list class="chip-list" #chipList aria-label="Fruit selection">
+        <mat-chip-list>
+          <mat-chip *ngFor="let place of this.model.places" (click)="onPlaceClick(place)" [color]=" place.placeType === 0 ? 'accent' : 'primary'" selected>
+            {{place.name}}
+          </mat-chip>
+        </mat-chip-list>
+      </mat-chip-list>
+    </div>
+    <div class="join">
+      <button *ngIf="!this.userIsParticipant; else goToChat" class="join-button" mat-button>JOIN</button>
+      <ng-template #goToChat>
+        <span mat-button (click)="onGoToChat()">Go to chat</span>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>

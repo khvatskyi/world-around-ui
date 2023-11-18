@@ -1,0 +1,28 @@
+input {
+    border: none;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  .leaflet-control {
+    display: none;
+  }
+
+html, body { height: 100%; }
+
+.authentication-modal {
+  mat-dialog-container {
+    padding: 0;
+  }
+}
+
+.mat-tooltip {
+  font-size: medium;
+}
+
+.search-modal {
+  height: 80%;
+  width: 80%;
+}

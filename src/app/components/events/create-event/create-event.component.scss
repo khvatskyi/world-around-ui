@@ -1,0 +1,103 @@
+.main-form {
+  width: 700px;
+
+  &>div {
+    display: flex;
+  }
+
+  .title {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1vw;
+
+    &>h1 {
+      padding: 0.5vw;
+      padding-right: 0;
+      border-left: solid #434040;
+    }
+
+    .mat-radio-button ~ .mat-radio-button {
+      margin-left: 16px;
+    }
+  }
+
+  &>div:nth-child(2) {
+    justify-content: space-between;
+
+    .form {
+      display: flex;
+      flex-direction: column;
+
+      &>* {
+        margin-bottom: 30px;
+      }
+    }
+  }
+
+  .chip {
+    border-left: solid rgba(0, 0, 0, 0.15);
+    padding-left: 2%;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 60px;
+
+    .chip-title {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60%;
+      height: 60px;
+      margin-bottom: 20px;
+
+      background: #FAFAFA;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 50px;
+      transition: 0.2s;
+
+      &>mat-icon {
+        margin-right: 3%;
+        justify-self: start;
+      }
+
+      &:hover {
+        margin-top: -3px;
+        margin-bottom: 23px;
+        background: #e4e4e4;
+        cursor: pointer;
+      }
+    }
+
+    &>mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .finish-adding {
+    position: relative;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 40px 0 70px;
+
+    &>button {
+      position: absolute;
+      width: 150px;
+      height: 60px;
+      font-size: large;
+      color: white;
+      background: #2b2d2e;
+      transition: 0.2s;
+
+      border-radius: 200px;
+
+      &:hover {
+        background: rosybrown;
+        width: 160px;
+        height: 65px;
+        font-size: larger;
+      }
+    }
+  }
+}

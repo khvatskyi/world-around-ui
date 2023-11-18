@@ -1,0 +1,16 @@
+<div class="container" *ngIf="attraction" [style.backgroundImage]="backgroundImage" [routerLink]="'/attractions/' + attraction.id">
+    <div class="container__info">
+     <div><app-icon height="15px" width="15px" color="white" icon="/assets/icons/chat-square.svg"></app-icon><div>{{attraction.commentsCount}}</div></div>
+     <div><app-icon height="15px" width="15px" color="white" icon="/assets/icons/star.svg"></app-icon><div>{{attraction.rating | number : '1.1-1'}}</div></div>
+    </div>
+    <div class="container-footer">
+     <img
+      src="/assets/images/userPlaceholder.png"
+      alt="people"
+     />
+     <div class="container__profile__text">
+      <h2>{{attraction.name}}</h2>
+      <p>by <b>{{attraction.authorName}}</b></p>
+     </div>
+    </div>
+   </div>

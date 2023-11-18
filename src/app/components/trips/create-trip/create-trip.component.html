@@ -1,0 +1,50 @@
+<div class="content">
+
+    <div class="form">
+      <h2>Create new trip</h2>
+      <label>Name</label>
+      <textarea [(ngModel)]="trip.name"></textarea>
+      <label>Description</label>
+      <textarea [(ngModel)]="trip.description"></textarea>
+    </div>
+  
+    <app-map height="500px" width="1400px" mapId="create-trip-map" [mapMode]="2" (mapClick)="updateCurrentPinCoords($event)"></app-map>
+  
+    <div>
+      <h4>Pins</h4>
+      <table>
+        <tr>
+          <th [width]="200">Sequence Number</th>
+          <th [width]="300">Name</th>
+          <th [width]="400">Description</th>
+          <th [width]="200">Latitude</th>
+          <th [width]="200">Longitude</th>
+          <th [width]="50"></th>
+        </tr>
+        <tr *ngFor="let pin of trip.pins">
+          <td>{{pin.seqNo}}</td>
+          <td>{{pin.name}}</td>
+          <td>{{pin.description}}</td>
+          <td>{{pin.latitude}}</td>
+          <td>{{pin.longitude}}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>{{currentPin.seqNo}}</td>
+          <td><textarea type="text" [(ngModel)]="currentPin.name"></textarea></td>
+          <td><textarea class="description" [(ngModel)]="currentPin.description"></textarea></td>
+          <td>{{currentPin.latitude}}</td>
+          <td>{{currentPin.longitude}}</td>
+          <td (click)="savePin()">
+            <app-icon width='50px' height="50px" icon="/assets/icons/check-lg.svg" color="#0ea83c"></app-icon>
+          </td>
+        </tr>
+      </table>
+    </div>
+  
+    <div class="buttons">
+      <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      <button class="btn btn-secondary" (click)="saveTrip()">Save</button>
+    </div>
+  
+  </div>

@@ -1,0 +1,16 @@
+.content {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+mat-sidenav-container {
+  width: 100%;
+  height: 100%;
+}
+
+mat-sidenav {
+  background: #2b2d2e;
+  // box-shadow: 2px 0px 2px #B9C2C7;
+  width: 200px;
+}

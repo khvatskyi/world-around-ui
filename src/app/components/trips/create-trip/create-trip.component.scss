@@ -1,0 +1,73 @@
+.content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.pin-grid-header {
+    display: flex;
+}
+
+table {
+    &>tr {
+        border-bottom: 1px solid black;
+
+        &>th {
+            padding: 20px;
+        }
+
+        &>td {
+            padding: 20px;
+
+            &>.description {
+                width: 100%;
+            }
+        }
+    }
+}
+
+input {
+    border: solid 1px black;
+}
+
+button {
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+h4 {
+    margin-top: 20px;
+}
+
+.buttons {
+    width: 1400px;
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.form {
+    width: 1400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    &>textarea {
+        width: 450px;
+        margin-bottom: 20px;
+    }
+}
+
+textarea {
+    background-color: #B9C2C7;
+    border: none;
+
+    &:focus,
+    &:hover {
+        background-color: white;
+    }
+}
+
+label {
+    font-weight: bold;
+}

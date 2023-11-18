@@ -1,0 +1,86 @@
+.content {
+    width: 940px;
+}
+
+.map-container {
+    margin-top: 20px;
+}
+
+.info-section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 940px;
+    border-bottom: 1px solid black;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name {
+    display: flex;
+    align-items: center;
+    width: 80%;
+
+    &>app-icon {
+        margin-left: 10px;
+    }
+
+    &>input {
+        font-size: 20pt;
+        width: 100%;
+    }
+}
+
+.description {
+    display: flex;
+    align-items: flex-start;
+
+    &>app-icon {
+        margin-left: 10px;
+    }
+}
+
+.description>p {
+    margin: 0;
+    white-space: pre-line;
+}
+
+.description>textarea {
+    width: 80%;
+    height: 160px;
+}
+
+.header-buttons {
+    width: 100px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.pin {
+    display: flex;
+
+    &-buttons {
+        display: flex;
+        margin-left: 10px;
+        height: 15px;
+    }
+
+    &:hover &-buttons > .edit {
+        display: block;
+    }
+
+    &-name {
+        display: flex;
+
+        & > h6 {
+            margin-right: 10px;
+        }
+    }
+}
+
+.edit {
+    display: none;
+}

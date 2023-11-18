@@ -1,0 +1,138 @@
+<div *ngIf="pending; else elseBlock">
+  <mat-spinner></mat-spinner>
+</div>
+
+<ng-template #elseBlock>
+  <div class="wrapper">
+    <h1 class="title">User Settings</h1>
+    <div class="content">
+      <app-add-image
+        class="add-image"
+        [imageUrl]="this.imageUrl"
+        (selectedImage)="onImageSelected($event)">
+      </app-add-image>
+      <form
+        class="form"
+        [formGroup]="formGroup"
+        (ngSubmit)="onSubmit()">
+        <div>
+          <h3>Additional Info:</h3>
+          <div class="field">
+            <mat-form-field
+              [matTooltip]="this.validation.email.message"
+              matTooltipPosition="left">
+              <mat-label>First name</mat-label>
+              <input
+                matInput
+                type="text"
+                name="firstName"
+                formControlName="firstName">
+            </mat-form-field>
+            <ng-template [ngIf]="this.formGroup.get('firstName').touched">
+              <mat-icon (click)="updateField('firstName')" class="mx-2 ms-3">check_box</mat-icon>
+              <mat-icon (click)="reset('firstName')">cancel</mat-icon>
+            </ng-template>
+          </div>
+          <div class="field">
+            <mat-form-field
+              [matTooltip]="this.validation.email.message"
+              matTooltipPosition="left">
+              <mat-label>Last name</mat-label>
+              <input
+                matInput
+                type="text"
+                name="lastName"
+                formControlName="lastName">
+            </mat-form-field>
+            <ng-template [ngIf]="this.formGroup.get('lastName').touched">
+              <mat-icon (click)="updateField('lastName')" class="mx-2 ms-3">check_box</mat-icon>
+              <mat-icon (click)="reset('lastName')">cancel</mat-icon>
+            </ng-template>
+          </div>
+        </div>
+        <div>
+          <h3>Email address:</h3>
+          <div class="field">
+            <mat-form-field
+              [matTooltip]="this.validation.email.message"
+              matTooltipPosition="left">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                type="email"
+                name="email"
+                formControlName="email"
+                placeholder="example@example.com">
+            </mat-form-field>
+            <ng-template [ngIf]="this.formGroup.get('email').touched">
+              <mat-icon (click)="updateField('email')" class="mx-2 ms-3">check_box</mat-icon>
+              <mat-icon (click)="reset('email')">cancel</mat-icon>
+            </ng-template>
+          </div>
+        </div>
+
+        <div>
+          <h3>Username:</h3>
+          <div class="field">
+            <mat-form-field
+              [matTooltip]="this.validation.userName.message"
+              matTooltipPosition="left">
+              <mat-label>Username</mat-label>
+              <input
+                matInput
+                type="username"
+                name="username"
+                placeholder="pick a username"
+                formControlName="userName" />
+            </mat-form-field>
+            <ng-template [ngIf]="this.formGroup.get('userName').touched">
+              <mat-icon (click)="updateField('userName')" class="mx-2 ms-3">check_box</mat-icon>
+              <mat-icon (click)="reset('userName')">cancel</mat-icon>
+            </ng-template>
+          </div>
+        </div>
+
+        <div formGroupName="passwordsGroup">
+          <h3>Change password:</h3>
+          <mat-form-field
+            [matTooltip]="this.validation.currentPassword.message"
+            matTooltipPosition="left">
+            <mat-label>Current password</mat-label>
+            <input
+              matInput
+              type="password"
+              name="currentPassword"
+              placeholder="specify your current password"
+              formControlName="currentPassword"
+              required />
+          </mat-form-field>
+          <mat-form-field
+            [matTooltip]="this.validation.newPassword.message"
+            matTooltipPosition="left">
+            <mat-label>New password</mat-label>
+            <input
+              matInput
+              type="password"
+              name="newPassword"
+              placeholder="set new password"
+              formControlName="newPassword"
+              required />
+          </mat-form-field>
+          <mat-form-field
+            [matTooltip]="this.validation.confirmPassword.message"
+            matTooltipPosition="left">
+            <mat-label>Confirm password</mat-label>
+            <input
+              matInput
+              type="password"
+              name="confirm-password"
+              placeholder="confirm the new password"
+              formControlName="confirmPassword"
+              required />
+          </mat-form-field>
+          <button mat-button color="primary" (click)="updatePassword()">Update password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

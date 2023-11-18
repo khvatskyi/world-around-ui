@@ -1,0 +1,23 @@
+.content {
+  width: 940px;
+}
+
+h2 {
+  border-bottom: 1px solid black;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+
+.buttons {
+  width: 940px;
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    margin: 10px;
+  }
+}

@@ -1,0 +1,52 @@
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    align-self: center;
+    margin-bottom: 50px;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1000px;
+
+  .add-image {
+    position: absolute;
+    align-self: flex-end;
+  }
+
+  .form {
+    position: relative;
+    display: flex;
+    align-self: flex-start;
+    flex-direction: column;
+
+    &>div {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+    }
+  }
+}
+
+mat-form-field {
+  width: 70%;
+}
+
+mat-icon:hover {
+  cursor: pointer;
+}
+
+.field > mat-icon:nth-child(3) {
+  color: rgb(137, 0, 0);
+}
+
+.field > mat-icon:nth-child(2) {
+  color: green;
+}

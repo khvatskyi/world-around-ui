@@ -1,0 +1,69 @@
+<form
+  class="form"
+  [formGroup]="signUpForm"
+  (ngSubmit)="onSubmit()">
+  <mat-label>
+    <h2>Registration</h2>
+  </mat-label>
+  <br>
+  <div>
+    <mat-form-field
+      [matTooltip]="this.validation.email.message"
+      matTooltipPosition="right">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="email"
+        name="email"
+        formControlName="email"
+        placeholder="example@example.com">
+    </mat-form-field>
+    <mat-form-field
+      [matTooltip]="this.validation.userName.message"
+      matTooltipPosition="right">
+      <mat-label>Username</mat-label>
+      <input
+        matInput
+        type="username"
+        name="username"
+        placeholder="pick a username"
+        formControlName="userName" />
+    </mat-form-field>
+    <mat-form-field
+      [matTooltip]="this.validation.password.message"
+      matTooltipPosition="right">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        type="password"
+        name="password"
+        placeholder="set a password"
+        formControlName="password"
+        required />
+    </mat-form-field>
+    <mat-form-field
+      [matTooltip]="this.validation.confirmPassword.message"
+      matTooltipPosition="right">
+      <mat-label>Confirm password</mat-label>
+      <input
+        matInput
+        type="password"
+        name="confirm-password"
+        placeholder="confirm the password"
+        formControlName="confirmPassword"
+        required />
+    </mat-form-field>
+    <br>
+    <br>
+  </div>
+  <button
+    class="button"
+    type="submit">
+    SIGN UP
+  </button>
+  <span
+    type="button"
+    (click)="openLogin()">
+    To Login
+  </span>
+</form>

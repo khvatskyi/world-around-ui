@@ -1,0 +1,14 @@
+<div class="add-photo">
+  <div *ngIf="!this.imageUrl; else elseBlock" class="add-photo-plus" (click)="fileInput.click()">
+    <div></div>
+    <div></div>
+  </div>
+  <ng-template #elseBlock>
+    <div class="add-photo-plus" (click)="fileInput.click()">
+      <img *ngIf="this.imageUrl" [src]="this.imageUrl" alt="" style="height: inherit; width: max-content;">
+    </div>
+  </ng-template>
+  <span class="add-photo-span">Choose image</span>
+  <input #fileInput type="file" accept="image/png, image/jpeg, image/svg+xml" (change)="onImageSelected($event)"
+    style="display:none;" />
+</div>

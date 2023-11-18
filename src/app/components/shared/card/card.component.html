@@ -1,0 +1,14 @@
+<mat-card class="card peach-gradient">
+  <mat-card-header>
+    <div #avatar mat-card-avatar class="header-image" [matTooltip]="this.model.avatarTitle" matTooltipPosition="above"></div>
+    <mat-card-title>{{this.model.title}}</mat-card-title>
+    <mat-card-subtitle>{{this.model.subtitle}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="this.model.imagePath ?? this.noImageUrl"
+  alt="Photo of card">
+  <mat-card-content *ngIf="this.model.description">
+    <p>
+      {{this.model.description}}
+    </p>
+  </mat-card-content>
+</mat-card>

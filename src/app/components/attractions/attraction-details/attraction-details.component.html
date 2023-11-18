@@ -1,0 +1,18 @@
+<div *ngIf="attraction" class="content">
+    <div class="title">
+        <h2>{{attraction.name}}</h2>
+    </div>
+    <div class="info">
+        <div class="photo" [style.backgroundImage]="backgroundImage"></div>
+        <div class="description">
+            <h5 class="description-text">Description</h5>
+            <p>{{attraction.description}}</p>
+        </div>
+    </div>
+    <div class="map-container">
+        <h5 class="title">Map</h5>
+        <app-map height="500px" width="940px" mapId="attraction-details-map"></app-map>
+    </div>
+    
+    <app-comment-section [targetType]="1" [targetId]="attraction.id"></app-comment-section>
+</div>

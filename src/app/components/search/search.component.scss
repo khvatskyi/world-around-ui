@@ -1,0 +1,11 @@
+h1 {
+    border-bottom: black 1px solid;
+    margin-bottom: 20px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

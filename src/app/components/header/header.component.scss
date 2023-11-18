@@ -1,0 +1,127 @@
+p {
+    margin: 0px;
+}
+
+.username {
+  color: white;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-decoration: underline;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.background {
+    width: 100%;
+    background-color: #2B2D2E;
+    min-height: 86px;
+    padding: 20px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
+}
+
+.links {
+    color: #B9C2C7;
+    font-weight: bold;
+    font-size: 24px;
+    display: flex;
+    width: 342px;
+    margin-left: 5%;
+    justify-content: space-between;
+
+    & > p {
+        cursor: pointer;
+
+        &:hover {
+            color: white;
+        }
+    }
+}
+
+.header-span {
+  color: #B9C2C7;
+  font-weight: bold;
+  font-size: 24px;
+  display: flex;
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.search {
+    width: 507px;
+    display: flex;
+
+    & > input, & > div, & > select {
+        height: 45px;
+        background-color: #B9C2C7;
+        color: #2B2D2E;
+        display: flex;
+        align-items: center;
+        font-size: 22px;
+        color: #2B2D2E;
+        padding: 7px 8px;
+        border: #2B2D2E 0.5px solid;
+
+        &:focus, &:hover {
+            background-color: white;
+        }
+
+        &::placeholder {
+            font-size: 24px;
+            color: #2B2D2E;
+        }
+    }
+
+    & > div {
+        cursor: pointer;
+    }
+}
+
+.caret {
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 20px;
+    height: 20px;
+    background-image: url("/assets/icons/chevron-down.svg");
+    background-size: cover;
+}
+
+.search-button {
+    width: 45px;
+    height: 45px;
+}
+
+.profile {
+    cursor: pointer;
+    color: #B9C2C7;
+    font-weight: bold;
+    font-size: 24px;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.active {
+    color: white;
+}
+
+.menu-icon {
+  color: white;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

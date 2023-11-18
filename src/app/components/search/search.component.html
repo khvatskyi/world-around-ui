@@ -1,0 +1,6 @@
+<h1>{{getTitle()}}</h1>
+
+<div class="content">
+    <app-trips-grid *ngIf="type==='0'"  [searchValue]="value" [autoLoad]="false" (dataLoaded)="setTripsLength($event)"></app-trips-grid>
+    <app-attractions-grid *ngIf="type==='1'"  [searchValue]="value" [autoLoad]="false" (dataLoaded)="setAttractionsLength($event)"></app-attractions-grid>
+</div>

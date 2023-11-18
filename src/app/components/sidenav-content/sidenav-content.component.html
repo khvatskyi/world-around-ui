@@ -1,0 +1,23 @@
+<div class="nav-wrapper">
+  <div class="header">
+    <!-- <mat-icon class="close-icon" (click)="onSideNavClose()">close</mat-icon> -->
+    <!-- <span>khvatskyi</span> -->
+  </div>
+  <mat-nav-list>
+    <a mat-list-item routerLink="/my-attractions">
+      <mat-icon>place</mat-icon><span>My Attractions</span>
+    </a>
+    <a mat-list-item routerLink="/my-profile">
+      <mat-icon> transfer_within_a_station</mat-icon><span>My Trips</span>
+    </a>
+    <a mat-list-item routerLink="/events/my">
+      <mat-icon>event</mat-icon><span>My Events</span>
+    </a>
+    <a mat-list-item routerLink="/settings">
+      <mat-icon>settings</mat-icon><span>Settings</span>
+    </a>
+    <a mat-list-item routerLink="/home" (click)="logout()">
+      <mat-icon>logout</mat-icon><span>Logout</span>
+    </a>
+  </mat-nav-list>
+</div>

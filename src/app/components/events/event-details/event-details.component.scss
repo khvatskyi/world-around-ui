@@ -1,0 +1,128 @@
+.event-details {
+  margin-top: 30px;
+  width: 1050px;
+
+  .event-details-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
+  img {
+    border-radius: 10px;
+    max-width: 450px;
+    max-height: 300px;
+  }
+
+  &>* {
+    margin-bottom: 60px;
+  }
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+
+    &>img {
+      margin-right: 50px;
+    }
+
+    &>.info-parts>div {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+
+      &>span {
+        font-size: larger;
+      }
+
+      &>span:nth-child(1) {
+        white-space: nowrap;
+      }
+
+      &>span:nth-child(2) {
+        margin-left: 30px;
+        width: 275px;
+      }
+    }
+  }
+
+  .chip {
+    display: flex;
+    border-left: solid rgba(0, 0, 0, 0.15);
+    padding-left: 2%;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 60px;
+
+    .chip-title {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60%;
+      height: 60px;
+      margin-bottom: 40px;
+
+      background: white;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 50px;
+      transition: 0.2s;
+    }
+
+    .chip-list {
+      align-self: flex-start;
+    }
+  }
+
+  .join {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 40px 0 70px;
+
+    &>*:hover {
+      cursor: pointer;
+    }
+
+    &>span {
+      text-decoration: underline;
+      font-size: larger;
+    }
+
+    &>button {
+      position: absolute;
+      width: 150px;
+      height: 60px;
+      font-size: large;
+      color: white;
+      background: #2b2d2e;
+      transition: 0.2s;
+
+      border-radius: 200px;
+
+      &:hover {
+        background: rosybrown;
+        width: 160px;
+        height: 65px;
+        font-size: larger;
+      }
+    }
+  }
+}
+
+mat-chip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+  height: 40px;
+}
+
+mat-chip:hover {
+  cursor: pointer;
+}

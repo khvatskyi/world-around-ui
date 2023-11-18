@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Delete trip</h2>
+<mat-dialog-content>Do you really want to delete this trip?</mat-dialog-content>
+<mat-dialog-actions>
+    <div class="buttons">
+        <button mat-button (click)="cancel()">Cancel</button>
+        <button mat-raised-button color="warn" (click)="deleteTrip()">Delete</button>
+    </div>
+</mat-dialog-actions>

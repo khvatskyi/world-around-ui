@@ -1,0 +1,68 @@
+<div class="comments">
+    <h5 class="info-section">Comments</h5>
+
+    <div class="comment-add">
+        <textarea placeholder="Comment..." [(ngModel)]="commentText"></textarea>
+        <button class="btn btn-secondary" (click)="createComment()">Create new comment</button>
+    </div>
+
+    <div *ngFor="let comment of comments">
+        <div class="comment">
+            <div class="image" [style.backgroundImage]="getBackgroundImage(comment.imagePath)"></div>
+            <div>
+                <span class="comment-name">{{comment.authorName}}</span>
+                <span>• {{comment.createDate | date:"MM/dd/yyyy hh:mm"}}</span>
+                <div class="comment-content">
+                    <p class="comment-text" *ngIf="!edits[comment.id].active">{{comment.text}}</p>
+                    <textarea class="comment-text" [value]="comment.text" *ngIf="edits[comment.id].active"
+                        [(ngModel)]="edits[comment.id].text"></textarea>
+                    <div class="comment-buttons">
+                        <app-icon height="25px" width="25px" color="black" icon="/assets/icons/reply-fill.svg"
+                            (click)="showReply(comment.id)" *ngIf="!edits[comment.id].active"></app-icon>
+                        <app-icon height="20px" width="20px" color="black" icon="/assets/icons/pencil.svg"
+                            *ngIf="comment.authorId == userId && !edits[comment.id].active"
+                            (click)="showUpdate(comment.id)"></app-icon>
+                        <app-icon height="20px" width="20px" color="black" icon="/assets/icons/trash-fill.svg"
+                            *ngIf="comment.authorId == userId && !edits[comment.id].active"
+                            (click)="deleteComment(comment.id)"></app-icon>
+                        <app-icon height="25px" width="25px" color="black" icon="/assets/icons/check-lg.svg"
+                            *ngIf="edits[comment.id].active" (click)="updateComment(comment.id)"></app-icon>
+                        <app-icon height="20px" width="20px" color="black" icon="/assets/icons/x-lg.svg"
+                            *ngIf="edits[comment.id].active" (click)="showUpdate(comment.id)"></app-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comment comment-child" *ngFor="let childComment of comment.childComments">
+            <div class="image" [style.backgroundImage]="getBackgroundImage(childComment.imagePath)"></div>
+            <div>
+                <span class="comment-name">{{childComment.authorName}}</span>
+                <span>• {{childComment.createDate | date:"MM/dd/yyyy hh:mm"}}</span>
+                <div class="comment-content">
+                    <p class="comment-child-text" *ngIf="!edits[childComment.id].active">{{childComment.text}}</p>
+                    <textarea class="comment-child-text" [value]="childComment.text"
+                        *ngIf="edits[childComment.id].active" [(ngModel)]="edits[childComment.id].text"></textarea>
+                    <div class="comment-buttons">
+                        <app-icon height="20px" width="20px" color="black" icon="/assets/icons/pencil.svg"
+                            *ngIf="childComment.authorId == userId && !edits[childComment.id].active"
+                            (click)="showUpdate(childComment.id)"></app-icon>
+                        <app-icon height="20px" width="20px" color="black" icon="/assets/icons/trash-fill.svg"
+                            *ngIf="childComment.authorId == userId && !edits[childComment.id].active"
+                            (click)="deleteComment(childComment.id, comment.id)"></app-icon>
+                        <app-icon height="25px" width="25px" color="black" icon="/assets/icons/check-lg.svg"
+                            *ngIf="edits[childComment.id].active" (click)="updateComment(childComment.id)"></app-icon>
+                        <app-icon height="20px" width="20px" color="black" icon="/assets/icons/x-lg.svg"
+                            *ngIf="edits[childComment.id].active" (click)="showUpdate(childComment.id)"></app-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comment-add comment-child reply" [style.display]="replies[comment.id] ? 'flex' : 'none'">
+            <textarea placeholder="Reply..." [(ngModel)]="replyTexts[comment.id]"></textarea>
+            <button class="btn btn-secondary" (click)="createComment(comment.id)">Reply</button>
+            <button class="btn btn-secondary" (click)="showReply(comment.id)">Cancel</button>
+        </div>
+    </div>
+</div>
