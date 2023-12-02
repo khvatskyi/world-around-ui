@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { Router } from '@angular/router';
 import { MapperHelper } from 'src/app/helpers/mapper.helper';
 import { GetEventsOptions } from 'src/app/models/gateways/get-events-options';

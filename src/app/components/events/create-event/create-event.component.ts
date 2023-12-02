@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Accessibility } from 'src/app/enums/event-accessibility';
 import { FormGroupHelper } from 'src/app/helpers/form-group.helper';
 import { CreateEventModel } from 'src/app/models/events/create-event';
