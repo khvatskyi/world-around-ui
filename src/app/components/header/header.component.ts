@@ -1,16 +1,20 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Subject, concatMap, filter, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+
 import { AuthorizationService } from 'src/app/services/authorization.service';
 import { LoginComponent } from '../authentication/login/login.component';
+import { SignupComponent } from '../authentication/signup/signup.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   @Output() public sidenavToggle = new EventEmitter();
 
@@ -25,8 +29,9 @@ export class HeaderComponent implements OnInit {
     private readonly dialog: MatDialog) {
   }
 
-  ngOnInit(): void {
-
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onToggleSidenav() {
@@ -35,7 +40,7 @@ export class HeaderComponent implements OnInit {
 
   search(): void {
 
-    if(!this.inputValue){
+    if (!this.inputValue) {
       this.toastr.error('Search field should not be empty!', 'Error');
       return;
     }
@@ -45,7 +50,7 @@ export class HeaderComponent implements OnInit {
 
   authorized(): boolean {
 
-    if(!this.authService.isAuthorized()) {
+    if (!this.authService.isAuthorized()) {
       this.userName = undefined;
       return false;
     }
@@ -59,8 +64,21 @@ export class HeaderComponent implements OnInit {
 
   openLogin(): void {
 
-    this.dialog.open(LoginComponent, {
-      panelClass: 'authentication-modal'
-    });
+    this.dialog
+      .open(LoginComponent, {
+        panelClass: 'authentication-modal'
+      })
+      .afterClosed()
+      .pipe(
+        filter(openSignUp => !!openSignUp),
+        concatMap(() => this.dialog.open(SignupComponent, {
+          panelClass: 'authentication-modal'
+        }).afterClosed()),
+        filter(openSignUp => !!openSignUp),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.openLogin();
+      });
   }
 }

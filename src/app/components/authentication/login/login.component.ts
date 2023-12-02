@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { LoginModel } from 'src/app/models/authorization/login';
 import { AuthorizationService } from 'src/app/services/authorization.service';
-import { SignupComponent } from '../signup/signup.component';
 import { IValidationModel } from 'src/app/models/validation/interfaces/IValidationModel';
 import { LoginAbstractControlValidation } from 'src/app/validation/authentication-control-validation';
 import { FormGroupHelper } from 'src/app/helpers/form-group.helper';
@@ -36,7 +35,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly authService: AuthorizationService,
     private readonly toastr: ToastrService,
     private readonly dialogRef: MatDialogRef<LoginComponent>,
-    private readonly dialog: MatDialog,
     private readonly formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -62,14 +60,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   openSignUp(): void {
-
-    this.dialogRef.afterClosed()
-      .pipe(takeUntil(this.destroy$)).subscribe(() => {
-        this.dialog.open(SignupComponent, {
-          panelClass: 'authentication-modal'
-        });
-      })
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 
   onSubmit(): void {

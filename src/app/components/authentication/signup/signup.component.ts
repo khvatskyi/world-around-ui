@@ -3,8 +3,7 @@ import { RegistrationModel } from 'src/app/models/authorization/registration';
 import { AuthorizationService } from 'src/app/services/authorization.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { LoginComponent } from '../login/login.component';
+import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { identical } from 'src/app/validation/form-validation';
@@ -33,7 +32,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     private readonly authService: AuthorizationService,
     private readonly toastr: ToastrService,
     private readonly dialogRef: MatDialogRef<SignupComponent>,
-    private readonly dialog: MatDialog,
     private readonly formBuilder: FormBuilder,
     private readonly loginValidator: UniqueLoginValidator) {
   }
@@ -72,14 +70,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   openLogin(): void {
-
-    this.dialogRef.afterClosed()
-      .pipe(takeUntil(this.destroy$)).subscribe(() => {
-        this.dialog.open(LoginComponent, {
-          panelClass: 'authentication-modal'
-        });
-      })
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 
   onSubmit(): void {
