@@ -61,7 +61,7 @@ export class EventsService {
     model.createUserId = this.authService.getUserId();
     let formData = new FormData();
 
-    if (model.places.length == 0) {
+    if (!model.places || model.places.length == 0) {
       model.places = null;
     }
 
@@ -71,11 +71,11 @@ export class EventsService {
       }
     }
 
-    for (let i = 0; i < model.participants.length; i++) {
+    for (let i = 0; i < model.participants?.length ?? 0; i++) {
       formData.append(`participants[${i}]`, model.participants[i].toString());
     }
 
-    for (let i = 0; i < model.places.length; i++) {
+    for (let i = 0; i < model.places?.length ?? 0; i++) {
       for(let key in model.places[i]) {
         formData.set(`places[${i}].${key}`, model.places[i][key])
       }

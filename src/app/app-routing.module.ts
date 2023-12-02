@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'src/app/guards/auth-guard';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 import { AttractionDetailsComponent } from './components/attractions/attraction-details/attraction-details.component';
 import { AttractionsComponent } from './components/attractions/attractions.component';
 import { CreateAttractionComponent } from './components/attractions/create-attraction/create-attraction.component';
