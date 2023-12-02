@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RegistrationModel } from 'src/app/models/authorization/registration';
 import { AuthorizationService } from 'src/app/services/authorization.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -17,6 +18,7 @@ import { FormGroupHelper } from 'src/app/helpers/form-group.helper';
   styleUrls: ['./signup.component.scss', '../authentication.scss']
 })
 export class SignupComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   model: RegistrationModel;
   signUpForm: FormGroup;
@@ -64,13 +66,15 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.toastr.toastrConfig.positionClass = 'toast-top-right';
   }
 
   openLogin(): void {
 
     this.dialogRef.afterClosed()
-      .subscribe(() => {
+      .pipe(takeUntil(this.destroy$)).subscribe(() => {
         this.dialog.open(LoginComponent, {
           panelClass: 'authentication-modal'
         });
@@ -86,7 +90,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     FormGroupHelper.mapToModel(this.model, this.signUpForm);
     this.authService.signUp(this.model)
-      .subscribe({
+      .pipe(takeUntil(this.destroy$)).subscribe({
         next: () => {
           this.toastr.success('Successful!');
           this.openLogin();

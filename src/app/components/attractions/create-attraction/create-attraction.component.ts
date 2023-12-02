@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { AttractionsGateway } from 'src/app/gateways/attractions.gateway';
 import { CreateAttractionModel } from 'src/app/models/attractions/createAttractionModel';
 import { PointModel } from 'src/app/models/map/point';
@@ -11,7 +12,9 @@ import { AuthorizationService } from 'src/app/services/authorization.service';
   templateUrl: './create-attraction.component.html',
   styleUrls: ['./create-attraction.component.scss']
 })
-export class CreateAttractionComponent implements OnInit {
+export class CreateAttractionComponent implements OnInit, OnDestroy {
+
+  private destroy$ = new Subject<void>();
 
   imageUrl: string | ArrayBuffer;
   model: CreateAttractionModel = {
@@ -26,6 +29,11 @@ export class CreateAttractionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onImageSelected(event: any) {
@@ -66,7 +74,7 @@ export class CreateAttractionComponent implements OnInit {
       formData.append(key, this.model[key]);
     }
 
-    this.attractionsGateway.createAttraction(formData).subscribe(() => {
+    this.attractionsGateway.createAttraction(formData).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success('You have successfuly created new Attraction!', 'Success')
       this.router.navigate(['/my-attractions']);
     });

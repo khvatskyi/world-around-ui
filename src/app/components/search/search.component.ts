@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -7,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   tripsLength: number = 0;
   attractionsLength: number = 0;
@@ -14,21 +16,21 @@ export class SearchComponent implements OnInit, OnDestroy {
   users: any = [];
   events: any = [];
 
-  sub: any;
   type: string;
   value: string;
 
   constructor(private activateRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.sub = this.activateRoute.params.subscribe(params => {
+    this.activateRoute.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.type = params['type'];
       this.value = params['value'];
     });
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   setTripsLength(tripsLength: any): void {

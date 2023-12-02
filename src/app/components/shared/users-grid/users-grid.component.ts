@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { takeUntil, Subject } from 'rxjs';
 import { UsersGateway } from 'src/app/gateways/users.gateway';
 import { UserModel } from 'src/app/models/users/user';
 
@@ -7,7 +8,8 @@ import { UserModel } from 'src/app/models/users/user';
   templateUrl: './users-grid.component.html',
   styleUrls: ['./users-grid.component.scss']
 })
-export class UsersGridComponent implements OnInit {
+export class UsersGridComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   @Input() width: string = "880px";
   @Input() height: string = "auto";
@@ -36,6 +38,11 @@ export class UsersGridComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   ngOnChanges(): void {
     this.updateInfo();
   }
@@ -50,7 +57,7 @@ export class UsersGridComponent implements OnInit {
 
   getUsers(): void {
 
-    // this.attractionsGateway.getAttractions(this.params).subscribe(data => {
+    // this.attractionsGateway.getAttractions(this.params).pipe(takeUntil(this.destroy$)).subscribe(data => {
     //   this.attractions = data.data;
     //   this.length = data.length;
     //   this.dataLoaded.emit(data.length);

@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { TripsGateway } from 'src/app/gateways/trips-gateway.service';
 import { GetTripsParams } from 'src/app/models/trips/getTripsParams';
 import { TripModel } from 'src/app/models/trips/tripModel';
@@ -8,7 +9,8 @@ import { TripModel } from 'src/app/models/trips/tripModel';
   templateUrl: './trips-grid.component.html',
   styleUrls: ['./trips-grid.component.scss']
 })
-export class TripsGridComponent implements OnInit, OnChanges {
+export class TripsGridComponent implements OnInit, OnChanges, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   @Input() width: string = "880px";
   @Input() height: string = "auto";
@@ -40,6 +42,11 @@ export class TripsGridComponent implements OnInit, OnChanges {
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   ngOnChanges(): void {
     this.params.includePins = this.includePins;
     this.updateInfo();
@@ -55,7 +62,7 @@ export class TripsGridComponent implements OnInit, OnChanges {
 
   getTrips(): void {
 
-    this.tripsGateway.getTrips(this.params).subscribe(data => {
+    this.tripsGateway.getTrips(this.params).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.trips = data.data;
       this.length = data.length;
       this.dataLoaded.emit(data.length);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EventDetailsModel } from 'src/app/models/events/get-event-details';
 import { ActivatedRoute, Router, } from '@angular/router';
 import { ParticipantRole } from 'src/app/enums/participant-role';
@@ -7,13 +7,15 @@ import { AuthorizationService } from 'src/app/services/authorization.service';
 import { ChipItem } from 'src/app/models/events/chip-item';
 import { ItemType } from 'src/app/enums/item-type';
 import { EventsService } from 'src/app/services/events.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-event-details',
   templateUrl: './event-details.component.html',
   styleUrls: ['./event-details.component.scss']
 })
-export class EventDetailsComponent implements OnInit {
+export class EventDetailsComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   private id: number;
 
@@ -29,15 +31,19 @@ export class EventDetailsComponent implements OnInit {
     private readonly eventsService: EventsService,
     private readonly authService: AuthorizationService) {
   }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   ngOnInit(): void {
 
-    this.route.params.subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.id = params['id'];
     });
 
     this.eventsService.getById(this.id)
-      .subscribe(result => {
+      .pipe(takeUntil(this.destroy$)).subscribe(result => {
         this.model = result;
 
         for (let i = 0; i < this.model.participants.length; i++) {

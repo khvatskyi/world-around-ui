@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CommentsGateway } from 'src/app/gateways/comments.gateway';
 import { AddCommentModel } from 'src/app/models/comments/addCommentModel';
@@ -9,13 +9,15 @@ import { UpdateCommentModel } from 'src/app/models/comments/updateCommentModel';
 import { AuthorizationService } from 'src/app/services/authorization.service';
 import { environment } from 'src/environments/environment';
 import { DeleteCommentPopupComponent } from './delete-comment-popup/delete-comment-popup.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-comment-section',
   templateUrl: './comment-section.component.html',
   styleUrls: ['./comment-section.component.scss']
 })
-export class CommentSectionComponent implements OnInit {
+export class CommentSectionComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   @Input() targetId: number = 0;
   @Input() targetType: TargetType = TargetType.Trip;
@@ -34,7 +36,7 @@ export class CommentSectionComponent implements OnInit {
     private readonly dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.commentsGateway.getComments(new GetCommentsModel(this.targetId, this.targetType)).subscribe(x => {
+    this.commentsGateway.getComments(new GetCommentsModel(this.targetId, this.targetType)).pipe(takeUntil(this.destroy$)).subscribe(x => {
       this.comments = x;
 
       x.forEach(element => {
@@ -49,6 +51,11 @@ export class CommentSectionComponent implements OnInit {
       });
     })
     this.userId = this.authorizationService.getUserId();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getBackgroundImage(imagePath: string): string {
@@ -67,7 +74,7 @@ export class CommentSectionComponent implements OnInit {
 
     const commentText = parentCommentId ? this.replyTexts[parentCommentId] : this.commentText;
 
-    this.commentsGateway.addComment(new AddCommentModel(commentText, this.userId, this.targetId, this.targetType, parentCommentId)).subscribe(data => {
+    this.commentsGateway.addComment(new AddCommentModel(commentText, this.userId, this.targetId, this.targetType, parentCommentId)).pipe(takeUntil(this.destroy$)).subscribe(data => {
 
       if (parentCommentId) {
         const parent = this.comments.find(x => x.id === parentCommentId);
@@ -96,7 +103,7 @@ export class CommentSectionComponent implements OnInit {
 
   updateComment(commentId: number) {
     const text = this.edits[commentId].text;
-    this.commentsGateway.updateComment(new UpdateCommentModel(commentId, text)).subscribe(()=> {
+    this.commentsGateway.updateComment(new UpdateCommentModel(commentId, text)).pipe(takeUntil(this.destroy$)).subscribe(()=> {
 
       this.comments.forEach(x=> {
         if(x.id === commentId){
@@ -123,7 +130,7 @@ export class CommentSectionComponent implements OnInit {
       data: commentId
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       if (result) {
         if (parentCommentId) {
           const parent = this.comments.find(x => x.id === parentCommentId);
@@ -134,7 +141,7 @@ export class CommentSectionComponent implements OnInit {
       }
     });
 
-    // this.commentsGateway.deleteComment(commentId).subscribe(() => {
+    // this.commentsGateway.deleteComment(commentId).pipe(takeUntil(this.destroy$)).subscribe(() => {
     //   if (parentCommentId) {
     //     const parent = this.comments.find(x => x.id === parentCommentId);
     //     parent.childComments = parent.childComments.filter(x => x.id !== commentId);

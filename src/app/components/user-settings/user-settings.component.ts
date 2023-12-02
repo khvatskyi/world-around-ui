@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UsersGateway } from 'src/app/gateways/users.gateway';
@@ -9,13 +9,15 @@ import { AuthorizationService } from 'src/app/services/authorization.service';
 import { ConfirmPasswordAbstractControlValidation, EmailAbstractControlValidation, PasswordAbstractControlValidation, UniqueLoginValidator, UsernameAbstractControlValidation } from 'src/app/validation/authentication-control-validation';
 import { identical } from 'src/app/validation/form-validation';
 import { CurrentPasswordValidator } from 'src/app/validation/user-validation';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-user-settings',
   templateUrl: './user-settings.component.html',
   styleUrls: ['./user-settings.component.scss']
 })
-export class UserSettingsComponent implements OnInit {
+export class UserSettingsComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   imageUrl: string | ArrayBuffer;
   pending: boolean = true;
@@ -74,7 +76,7 @@ export class UserSettingsComponent implements OnInit {
     };
 
     this.usersGateway.getById(this.authService.getUserId())
-      .subscribe(result => {
+      .pipe(takeUntil(this.destroy$)).subscribe(result => {
         this.model = <UpdateUserModel><unknown>result;
         this.imageUrl = ImageUtility.convertImagePathToUrl(result.imagePath);
         Object.keys(this.model).forEach(key => {
@@ -84,6 +86,11 @@ export class UserSettingsComponent implements OnInit {
         });
         this.pending = false;
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   updatePassword(): void {
@@ -97,9 +104,9 @@ export class UserSettingsComponent implements OnInit {
     }
 
     this.usersGateway.updatePassword(this.authService.getUserId(), currentPasswordControl.value, confirmPasswordControl.value)
-    .subscribe(() => {
-      window.location.reload();
-    })
+      .pipe(takeUntil(this.destroy$)).subscribe(() => {
+        window.location.reload();
+      })
   }
 
   onImageSelected(event: any) {
@@ -126,7 +133,7 @@ export class UserSettingsComponent implements OnInit {
 
     let data = new FormData();
     data.append('image', image);
-    this.usersGateway.updateImage(this.authService.getUserId(), data).subscribe();
+    this.usersGateway.updateImage(this.authService.getUserId(), data).pipe(takeUntil(this.destroy$)).subscribe();
   }
 
   updateField(controlName): void {
@@ -142,7 +149,7 @@ export class UserSettingsComponent implements OnInit {
     user[controlName] = control.value;
 
     this.usersGateway.update(user)
-      .subscribe(result => {
+      .pipe(takeUntil(this.destroy$)).subscribe(result => {
         this.model[controlName] = result[controlName];
         this.reset(controlName);
       });

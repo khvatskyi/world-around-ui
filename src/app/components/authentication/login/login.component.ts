@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Subject, takeUntil } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { LoginModel } from 'src/app/models/authorization/login';
 import { AuthorizationService } from 'src/app/services/authorization.service';
-import { ToastrService } from 'ngx-toastr';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SignupComponent } from '../signup/signup.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IValidationModel } from 'src/app/models/validation/interfaces/IValidationModel';
 import { LoginAbstractControlValidation } from 'src/app/validation/authentication-control-validation';
 import { FormGroupHelper } from 'src/app/helpers/form-group.helper';
@@ -16,6 +17,9 @@ import { FormGroupHelper } from 'src/app/helpers/form-group.helper';
   styleUrls: ['./login.component.scss', '../authentication.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
+
+  private destroy$ = new Subject<void>();
+
 
   private returnUrl;
 
@@ -52,14 +56,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.destroy$.next();
+    this.destroy$.complete();
     this.toastr.toastrConfig.positionClass = 'toast-top-right';
   }
 
   openSignUp(): void {
 
     this.dialogRef.afterClosed()
-      .subscribe(() => {
+      .pipe(takeUntil(this.destroy$)).subscribe(() => {
         this.dialog.open(SignupComponent, {
           panelClass: 'authentication-modal'
         });
@@ -76,7 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     FormGroupHelper.mapToModel(this.loginModel, this.loginForm);
     this.loginBtnDisabled = true;
     this.authService.signIn(this.loginModel)
-      .subscribe({
+      .pipe(takeUntil(this.destroy$)).subscribe({
         next: () => {
           this.router.navigate([this.returnUrl]);
           this.toastr.success('Authentication passed');

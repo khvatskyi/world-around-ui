@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, concatMap, takeUntil } from 'rxjs';
+
 import { PinsGateway } from 'src/app/gateways/pins-gateway.service';
 import { TripsGateway } from 'src/app/gateways/trips-gateway.service';
 import { MapMode } from 'src/app/models/map/map-mode';
@@ -20,11 +22,11 @@ import { DeleteTripPopupComponent } from './delete-trip-popup/delete-trip-popup.
   styleUrls: ['./trip-detail.component.scss']
 })
 export class TripDetailComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   @ViewChild(MapComponent) map: MapComponent;
 
   trip: TripModel;
-  sub: any;
   userId: number;
 
   edittingName: boolean = false;
@@ -33,7 +35,7 @@ export class TripDetailComponent implements OnInit, OnDestroy {
   edittingDescription: boolean = false;
   description: string = '';
 
-  edittingPin: boolean= false;
+  edittingPin: boolean = false;
   pin: PinModel = {};
   mapMode: MapMode = MapMode.View;
   tripId: number;
@@ -51,18 +53,23 @@ export class TripDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userId = this.authService.getUserId();
 
-    this.sub = this.activateRoute.params.subscribe(params => {
-      this.tripId = params['id'];
-      this.tripsGateway.getTrip(this.tripId).subscribe(data => {
+    this.activateRoute.params
+      .pipe(
+        concatMap(params => {
+          this.tripId = params['id'];
+          return this.tripsGateway.getTrip(this.tripId);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(data => {
         this.trip = data;
-
         this.setWaypoints();
       });
-    });
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   toggleNameEdit(): void {
@@ -71,7 +78,7 @@ export class TripDetailComponent implements OnInit, OnDestroy {
   }
 
   editName(): void {
-    this.tripsGateway.updateTripName(new UpdateTripModel(this.trip.id, this.name)).subscribe(() => {
+    this.tripsGateway.updateTripName(new UpdateTripModel(this.trip.id, this.name)).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.trip.name = this.name;
       this.toggleNameEdit();
     });
@@ -83,7 +90,7 @@ export class TripDetailComponent implements OnInit, OnDestroy {
       data: this.trip.id
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       if (result) {
         this.toastr.success('Trip successfully deleted!', 'Success');
         this.router.navigate(['/my-profile']);
@@ -97,7 +104,7 @@ export class TripDetailComponent implements OnInit, OnDestroy {
   }
 
   editDescription(): void {
-    this.tripsGateway.updateTripDescription(new UpdateTripModel(this.trip.id, this.description)).subscribe(() => {
+    this.tripsGateway.updateTripDescription(new UpdateTripModel(this.trip.id, this.description)).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.trip.description = this.description;
       this.toggleDescriptionEdit();
     });
@@ -110,8 +117,8 @@ export class TripDetailComponent implements OnInit, OnDestroy {
       ? this.map.enableClick()
       : this.map.disableClick()
 
-    if(pinId > 0) {
-      this.pin = Object.assign({}, this.trip.pins.find(x=>x.id == pinId));
+    if (pinId > 0) {
+      this.pin = Object.assign({}, this.trip.pins.find(x => x.id == pinId));
       this.map.activeMarkerSeqNo = this.pin.seqNo - 1;
     } else if (pinId == 0) {
       this.pin.id = pinId;
@@ -120,7 +127,7 @@ export class TripDetailComponent implements OnInit, OnDestroy {
   }
 
   pinEdit(): void {
-    const model: UpdatePinModel =  {
+    const model: UpdatePinModel = {
       id: this.pin.id,
       name: this.pin.name,
       description: this.pin.description,
@@ -128,7 +135,7 @@ export class TripDetailComponent implements OnInit, OnDestroy {
       longitude: this.pin.longitude
     };
 
-    this.pinsGateway.updatePin(model).subscribe(() => {
+    this.pinsGateway.updatePin(model).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.trip.pins[this.pin.seqNo - 1] = Object.assign({}, this.pin);
       this.togglePinEdit(-1);
       this.map.confirmUpdating();
@@ -137,7 +144,7 @@ export class TripDetailComponent implements OnInit, OnDestroy {
   }
 
   updateCurrentPinCoords(point: PointModel): void {
-    if(this.pin){
+    if (this.pin) {
       this.pin.latitude = point.x;
       this.pin.longitude = point.y;
     }

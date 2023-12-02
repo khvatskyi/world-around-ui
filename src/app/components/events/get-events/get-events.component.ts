@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { MapperHelper } from 'src/app/helpers/mapper.helper';
@@ -7,13 +7,15 @@ import { CardModel } from 'src/app/models/cards/card';
 import { GetEventsPageModel } from 'src/app/models/events/get-events-page';
 import { AuthorizationService } from 'src/app/services/authorization.service';
 import { EventsService } from 'src/app/services/events.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-get-events',
   templateUrl: './get-events.component.html',
   styleUrls: ['./get-events.component.scss']
 })
-export class GetEventsComponent implements OnInit {
+export class GetEventsComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   isOwner: boolean = true;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -30,6 +32,12 @@ export class GetEventsComponent implements OnInit {
   ngOnInit(): void {
     this.getEvents(0, 5, this.isOwner);
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 
   onCheckBoxClick() {
     this.getEvents(0, 5, this.isOwner);
@@ -49,7 +57,7 @@ export class GetEventsComponent implements OnInit {
     });
 
     this.eventsService.getEvents(options)
-      .subscribe(result => {
+      .pipe(takeUntil(this.destroy$)).subscribe(result => {
         this.model = result;
         this.cardModels = [];
         this.model.events.forEach(event => {

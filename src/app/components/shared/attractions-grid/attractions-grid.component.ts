@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { AttractionsGateway } from 'src/app/gateways/attractions.gateway';
 import { AttractionModel } from 'src/app/models/attractions/attractionModel';
 import { GetAttractionsModel } from 'src/app/models/attractions/getAttractionsModel';
@@ -9,7 +10,9 @@ import { GetAttractionsParams } from 'src/app/models/attractions/getAttractionsP
   templateUrl: './attractions-grid.component.html',
   styleUrls: ['./attractions-grid.component.scss']
 })
-export class AttractionsGridComponent implements OnInit, OnChanges {
+export class AttractionsGridComponent implements OnInit, OnChanges, OnDestroy {
+  private destroy$ = new Subject<void>();
+
 
   @Input() width: string = "880px";
   @Input() height: string = "auto";
@@ -38,6 +41,11 @@ export class AttractionsGridComponent implements OnInit, OnChanges {
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   ngOnChanges(): void {
     this.updateInfo();
   }
@@ -52,7 +60,7 @@ export class AttractionsGridComponent implements OnInit, OnChanges {
 
   getAttractions(): void {
 
-    this.attractionsGateway.getAttractions(this.params).subscribe(data => {
+    this.attractionsGateway.getAttractions(this.params).pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (!data) {
         data = {
           data: [],

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AttractionsGateway } from 'src/app/gateways/attractions.gateway';
 import { GetAttractionModel } from 'src/app/models/attractions/getAttractionModel';
 import { PointModel } from 'src/app/models/map/point';
@@ -13,6 +14,8 @@ import { MapComponent } from '../../shared/map/map.component';
   styleUrls: ['./attraction-details.component.scss']
 })
 export class AttractionDetailsComponent implements OnInit, OnDestroy {
+
+  private destroy$ = new Subject<void>();
 
   @ViewChild(MapComponent) map: MapComponent;
 
@@ -33,9 +36,9 @@ export class AttractionDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userId = this.authService.getUserId();
 
-    this.sub = this.activatedRoute.params.subscribe(params => {
+    this.sub = this.activatedRoute.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const attractionId = params['id'];
-      this.attractionsGateway.getAttraction(attractionId).subscribe(data => {
+      this.attractionsGateway.getAttraction(attractionId).pipe(takeUntil(this.destroy$)).subscribe(data => {
         this.attraction = data;
         this.backgroundImage = `url("${environment.cloudStorageUrl + this.attraction.imagePath}")`;
         this.interval = setInterval(() => {
@@ -47,6 +50,8 @@ export class AttractionDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   setWaypoints(): void {

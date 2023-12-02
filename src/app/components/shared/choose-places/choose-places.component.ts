@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { ItemType } from 'src/app/enums/item-type';
 import { AttractionsGateway } from 'src/app/gateways/attractions.gateway';
 import { TripsGateway } from 'src/app/gateways/trips-gateway.service';
@@ -17,7 +18,8 @@ import { ImageUtility } from 'src/app/utilities/image.utility';
   templateUrl: './choose-places.component.html',
   styleUrls: ['./choose-places.component.scss']
 })
-export class ChoosePlacesComponent implements OnInit {
+export class ChoosePlacesComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pagingOptions: PagingModel = {
@@ -56,6 +58,11 @@ export class ChoosePlacesComponent implements OnInit {
 
     this.pagingOptions.pageIndex = 0,
       this.getData();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onConfirm(): void {
@@ -112,7 +119,7 @@ export class ChoosePlacesComponent implements OnInit {
         pageIndex: this.pagingOptions.pageIndex,
         searchValue: this.searchValue || ''
       })
-        .subscribe(result => {
+        .pipe(takeUntil(this.destroy$)).subscribe(result => {
           this.pagingOptions.length = result.length;
           this.data = [];
           result.data.forEach(item => {
@@ -130,7 +137,7 @@ export class ChoosePlacesComponent implements OnInit {
         pageIndex: this.pagingOptions.pageIndex,
         searchValue: this.searchValue ?? '',
       })
-        .subscribe(result => {
+        .pipe(takeUntil(this.destroy$)).subscribe(result => {
           this.pagingOptions.length = result.length;
           this.data = [];
           result.data.forEach(item => {

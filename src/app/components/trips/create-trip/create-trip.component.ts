@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { TripsGateway } from 'src/app/gateways/trips-gateway.service';
 
 import { ToastrService } from 'ngx-toastr';
@@ -8,13 +8,15 @@ import { CreateTripModel } from 'src/app/models/trips/createTrip';
 import { MapComponent } from 'src/app/components/shared/map/map.component';
 import { PinModel } from 'src/app/models/trips/pin';
 import { PointModel } from 'src/app/models/map/point';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-create-trip',
   templateUrl: './create-trip.component.html',
   styleUrls: ['./create-trip.component.scss']
 })
-export class CreateTripComponent {
+export class CreateTripComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   @ViewChild(MapComponent) map: MapComponent;
 
@@ -31,6 +33,11 @@ export class CreateTripComponent {
     private readonly toastr: ToastrService,
     private readonly router: Router,
     private readonly authService: AuthorizationService) { }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   updateCurrentPinCoords(point: PointModel) {
     this.currentPin.latitude = point.x;
@@ -55,7 +62,7 @@ export class CreateTripComponent {
       return;
     }
 
-    this.tripsGateway.createTrip(this.trip).subscribe(() => {
+    this.tripsGateway.createTrip(this.trip).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success('You have successfuly created new Trip!', 'Success')
       this.router.navigate(['/my-profile']);
     });

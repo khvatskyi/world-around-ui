@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Accessibility } from 'src/app/enums/event-accessibility';
@@ -9,13 +9,16 @@ import { ChoosePeopleComponent } from 'src/app/components/shared/choose-people/c
 import { EventsService } from 'src/app/services/events.service';
 import { ChipItem } from 'src/app/models/events/chip-item';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.component.html',
   styleUrls: ['./create-event.component.scss']
 })
-export class CreateEventComponent implements OnInit {
+export class CreateEventComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+
   submitButtonDisabled: boolean = false;
   imageUrl: string | ArrayBuffer;
   model: CreateEventModel;
@@ -28,6 +31,11 @@ export class CreateEventComponent implements OnInit {
     private readonly eventsService: EventsService,
     private readonly formBuilder: FormBuilder,
     private readonly dialog: MatDialog) {
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngOnInit(): void {
@@ -50,7 +58,7 @@ export class CreateEventComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       if(result) {
         this.model.places = result;
       }
@@ -65,7 +73,7 @@ export class CreateEventComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       if(result) {
         this.selectedUsers = result;
       }
@@ -91,7 +99,7 @@ export class CreateEventComponent implements OnInit {
       this.model.participants.push(item.id);
     })
     this.eventsService.createEvent(this.model)
-      .subscribe(result => {
+      .pipe(takeUntil(this.destroy$)).subscribe(result => {
         this.router.navigate([`events/details/${result.id}`]);
       });
   }

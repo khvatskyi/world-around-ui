@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
@@ -8,13 +8,15 @@ import { ChipItem } from 'src/app/models/events/chip-item';
 import { PagingModel } from 'src/app/models/paging/paging';
 import { UserModel } from 'src/app/models/users/user';
 import { AuthorizationService } from 'src/app/services/authorization.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-choose-people',
   templateUrl: './choose-people.component.html',
   styleUrls: ['./choose-people.component.scss']
 })
-export class ChoosePeopleComponent implements OnInit {
+export class ChoosePeopleComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pagingOptions: PagingModel = {
@@ -51,12 +53,17 @@ export class ChoosePeopleComponent implements OnInit {
       this.getData();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   getData() {
     this.usersGateway.get(
       this.searchValue,
       this.pagingOptions.pageIndex,
       this.pagingOptions.pageSize)
-      .subscribe(result => {
+      .pipe(takeUntil(this.destroy$)).subscribe(result => {
         this.pagingOptions.length = result.pageInfo.length;
         this.data = [];
         let authorId = this.authService.getUserId();
