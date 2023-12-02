@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UsersGateway } from 'src/app/gateways/users.gateway';
 import { ImageUtility } from 'src/app/utilities/image.utility';
@@ -22,7 +22,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   imageUrl: string | ArrayBuffer;
   pending: boolean = true;
   model: UpdateUserModel;
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   validation: {
     email: IValidationModel,
     userName: IValidationModel,
@@ -33,7 +33,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly toastr: ToastrService,
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly passwordValidator: CurrentPasswordValidator,
     private readonly loginValidator: UniqueLoginValidator,
     private readonly usersGateway: UsersGateway,
