@@ -32,6 +32,13 @@
   .search>mat-form-field {
     width: 300px;
   }
+
+  /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
+  ::ng-deep mat-checkbox .mat-checkbox-inner-container {
+    width: 20px;
+    height: 20px;
+  }
+
 }
 
 .content {
@@ -56,7 +63,7 @@
     margin-left: 10px;
     margin-right: 10px;
 
-    &>.mat-checkbox {
+    &>.mat-mdc-checkbox {
       margin-bottom: 5px;
     }
 
@@ -64,9 +71,4 @@
       filter: brightness(90%);
     }
   }
-}
-
-mat-checkbox ::ng-deep .mat-checkbox-inner-container {
-  width: 20px;
-  height: 20px;
 }

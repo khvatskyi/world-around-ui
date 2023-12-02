@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CommentsGateway } from 'src/app/gateways/comments.gateway';
 import { AddCommentModel } from 'src/app/models/comments/addCommentModel';
 import { CommentModel } from 'src/app/models/comments/comment';

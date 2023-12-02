@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { MapperHelper } from 'src/app/helpers/mapper.helper';
 import { GetEventsOptions } from 'src/app/models/gateways/get-events-options';
@@ -37,7 +37,6 @@ export class GetEventsComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
 
   onCheckBoxClick() {
     this.getEvents(0, 5, this.isOwner);

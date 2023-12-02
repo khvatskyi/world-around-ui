@@ -43,13 +43,13 @@
       <div class="chip-title">
         <h3>Places of interest</h3>
       </div>
-      <mat-chip-list class="chip-list" #chipList aria-label="Fruit selection">
-        <mat-chip-list>
+      <mat-chip-set class="chip-list" #chipList aria-label="Fruit selection">
+        <mat-chip-set>
           <mat-chip *ngFor="let place of this.model.places" (click)="onPlaceClick(place)" [color]=" place.placeType === 0 ? 'accent' : 'primary'" selected>
             {{place.name}}
           </mat-chip>
-        </mat-chip-list>
-      </mat-chip-list>
+        </mat-chip-set>
+      </mat-chip-set>
     </div>
     <div class="join">
       <button *ngIf="!this.userIsParticipant; else goToChat" class="join-button" mat-button>JOIN</button>

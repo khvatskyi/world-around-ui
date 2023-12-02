@@ -1,12 +1,7 @@
-<form
-  class="main-form"
-  [formGroup]="form"
-  (ngSubmit)="onSubmit()">
+<form class="main-form" [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="title">
     <h1>New Event</h1>
-    <div
-      matTooltip="Accessibility"
-      matTooltipPosition="left">
+    <div matTooltip="Accessibility" matTooltipPosition="left">
       <mat-radio-group formControlName="accessibility">
         <mat-radio-button *ngFor="let enum of accessibilityEnum; index as i;" [value]="enum.value">
           {{enum.key}}
@@ -22,7 +17,7 @@
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Description</mat-label>
-        <textarea formControlName="description" matInput></textarea>
+        <textarea matInput formControlName="description"></textarea>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Start date</mat-label>
@@ -40,46 +35,40 @@
         <mat-datepicker #endDatePicker></mat-datepicker>
       </mat-form-field>
     </div>
-    <app-add-image
-      [imageUrl]="this.imageUrl"
-      (selectedImage)="onImageSelected($event)">
+    <app-add-image [imageUrl]="this.imageUrl" (selectedImage)="onImageSelected($event)">
     </app-add-image>
   </div>
   <div class="chip">
     <div class="chip-title" (click)="openPlacesChoosing()">
       <h3>Choose places of interest</h3>
     </div>
-    <mat-form-field>
-      <mat-chip-list #chipList aria-label="Fruit selection">
-        <mat-chip-list aria-label="Fish selection">
-          <mat-chip *ngFor="let chipPlace of this.model.places"
-            [color]="this.chipPlace.placeType === 0 ? 'accent' : 'primary'" selected>
-            {{this.chipPlace.name}}
-            <button matChipRemove (click)="removePlace(this.chipPlace)">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
-        </mat-chip-list>
-      </mat-chip-list>
-    </mat-form-field>
+    <mat-chip-set #chipList>
+      <mat-chip-set>
+        <mat-chip *ngFor="let chipPlace of this.model.places"
+          [color]="this.chipPlace.placeType === 0 ? 'accent' : 'primary'" selected>
+          {{this.chipPlace.name}}
+          <button matChipRemove (click)="removePlace(this.chipPlace)">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </mat-chip-set>
+    </mat-chip-set>
   </div>
   <div class="chip">
     <div class="chip-title" (click)="openParticipantsChoosing()">
       <mat-icon>people</mat-icon>
       <h3>Add people</h3>
     </div>
-    <mat-form-field>
-      <mat-chip-list #chipList aria-label="Fruit selection">
-        <mat-chip-list aria-label="Fish selection">
-          <mat-chip *ngFor="let participant of this.selectedUsers" color="warn" selected>
-            {{participant.name}}
-            <button matChipRemove (click)="removeParticipant(participant)">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
-        </mat-chip-list>
-      </mat-chip-list>
-    </mat-form-field>
+    <mat-chip-set #chipList>
+      <mat-chip-set>
+        <mat-chip *ngFor="let participant of this.selectedUsers" color="warn" selected>
+          {{participant.name}}
+          <button matChipRemove (click)="removeParticipant(participant)">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </mat-chip-set>
+    </mat-chip-set>
   </div>
   <div class="finish-adding">
     <button type="submit" mat-raised-button [disabled]="this.submitButtonDisabled">
