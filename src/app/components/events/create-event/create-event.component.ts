@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Accessibility } from 'src/app/enums/event-accessibility';
 import { FormGroupHelper } from 'src/app/helpers/form-group.helper';
@@ -22,14 +22,14 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   submitButtonDisabled: boolean = false;
   imageUrl: string | ArrayBuffer;
   model: CreateEventModel;
-  form: FormGroup;
+  form: UntypedFormGroup;
   accessibilityEnum: { key: string, value: number }[];
   selectedUsers: ChipItem[] = [];
 
   constructor(
     private readonly router: Router,
     private readonly eventsService: EventsService,
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly dialog: MatDialog) {
   }
 

@@ -113,16 +113,20 @@
       }
     }
   }
-}
 
-mat-chip {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: large;
-  height: 40px;
-}
+  ::ng-deep {
+    /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
+    mat-chip {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: large;
+      height: 40px;
+    }
 
-mat-chip:hover {
-  cursor: pointer;
+    /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
+    mat-chip:hover {
+      cursor: pointer;
+    }
+  }
 }

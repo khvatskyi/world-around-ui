@@ -1,4 +1,4 @@
-.mat-radio-button ~ .mat-radio-button {
+.mat-mdc-radio-button ~ .mat-radio-button {
   margin-left: 16px;
 }
 
@@ -18,7 +18,7 @@
     justify-content: space-between;
     align-items: center;
 
-    .mat-checkbox {
+    .mat-mdc-checkbox {
       font-size: larger;
     }
 

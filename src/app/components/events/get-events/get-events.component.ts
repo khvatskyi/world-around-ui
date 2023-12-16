@@ -38,7 +38,6 @@ export class GetEventsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-
   onCheckBoxClick() {
     this.getEvents(0, 5, this.isOwner);
   }

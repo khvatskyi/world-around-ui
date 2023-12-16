@@ -12,13 +12,7 @@ input {
 
 html, body { height: 100%; }
 
-.authentication-modal {
-  mat-dialog-container {
-    padding: 0;
-  }
-}
-
-.mat-tooltip {
+.mat-mdc-tooltip {
   font-size: medium;
 }
 

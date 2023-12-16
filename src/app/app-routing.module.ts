@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'src/app/guards/auth-guard';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 import { AttractionDetailsComponent } from './components/attractions/attraction-details/attraction-details.component';
 import { AttractionsComponent } from './components/attractions/attractions.component';
 import { CreateAttractionComponent } from './components/attractions/create-attraction/create-attraction.component';
@@ -17,21 +17,21 @@ import { TripsComponent } from './components/trips/trips.component';
 import { UserSettingsComponent } from './components/user-settings/user-settings.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'trips', component: TripsComponent },
-  { path: 'trips/create', canActivate: [AuthGuard], component: CreateTripComponent },
-  { path: 'attractions', component: AttractionsComponent },
-  { path: 'attractions/:id', canActivate: [AuthGuard], component: AttractionDetailsComponent },
-  { path: 'attractions-create', canActivate: [AuthGuard], component: CreateAttractionComponent },
-  { path: 'my-attractions', canActivate: [AuthGuard], component: MyAttractionsComponent },
-  { path: 'my-profile', canActivate: [AuthGuard], component: MyProfileComponent },
-  { path: 'trip/:id', canActivate: [AuthGuard], component: TripDetailComponent },
-  { path: 'search/:type/:value', component: SearchComponent },
-  { path: 'events/create', component: CreateEventComponent },
-  { path: 'events/details/:id', canActivate: [AuthGuard], component: EventDetailsComponent },
-  { path: 'settings', canActivate: [AuthGuard], component: UserSettingsComponent },
-  { path: 'events/my', canActivate: [AuthGuard], component: GetEventsComponent },
-  { path: '**', redirectTo: 'home' }
+  { path: 'home', component: HomeComponent, title: 'Home' },
+  { path: 'trips', component: TripsComponent, title: 'Trips' },
+  { path: 'trips/create', canActivate: [AuthGuard], component: CreateTripComponent, title: 'Create Trip' },
+  { path: 'attractions', component: AttractionsComponent, title: 'Attractions' },
+  { path: 'attractions/:id', canActivate: [AuthGuard], component: AttractionDetailsComponent, title: 'Attraction Details' },
+  { path: 'attractions-create', canActivate: [AuthGuard], component: CreateAttractionComponent, title: 'Create Attraction' },
+  { path: 'my-attractions', canActivate: [AuthGuard], component: MyAttractionsComponent, title: 'My Attractions' },
+  { path: 'my-profile', canActivate: [AuthGuard], component: MyProfileComponent, title: 'My Profile' },
+  { path: 'trip/:id', canActivate: [AuthGuard], component: TripDetailComponent, title: 'Trip Details' },
+  { path: 'search/:type/:value', component: SearchComponent, title: 'Search' },
+  { path: 'events/create', component: CreateEventComponent, title: 'Create Event' },
+  { path: 'events/details/:id', canActivate: [AuthGuard], component: EventDetailsComponent, title: 'Event Details' },
+  { path: 'settings', canActivate: [AuthGuard], component: UserSettingsComponent, title: 'User Settings' },
+  { path: 'events/my', canActivate: [AuthGuard], component: GetEventsComponent, title: 'My Events' },
+  { path: '**', redirectTo: 'home', title: 'Home' }
 ];
 
 @NgModule({

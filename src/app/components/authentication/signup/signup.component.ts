@@ -4,7 +4,7 @@ import { AuthorizationService } from 'src/app/services/authorization.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { identical } from 'src/app/validation/form-validation';
 import { ConfirmPasswordAbstractControlValidation, EmailAbstractControlValidation, PasswordAbstractControlValidation, UniqueLoginValidator, UsernameAbstractControlValidation } from 'src/app/validation/authentication-control-validation';
@@ -20,7 +20,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   model: RegistrationModel;
-  signUpForm: FormGroup;
+  signUpForm: UntypedFormGroup;
   validation: {
     email: IValidationModel,
     userName: IValidationModel,
@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     private readonly authService: AuthorizationService,
     private readonly toastr: ToastrService,
     private readonly dialogRef: MatDialogRef<SignupComponent>,
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly loginValidator: UniqueLoginValidator) {
   }
 

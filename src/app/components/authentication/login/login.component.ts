@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private returnUrl;
 
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   loginModel: LoginModel = new LoginModel();
   loginBtnDisabled: boolean = false;
   validation: {
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly authService: AuthorizationService,
     private readonly toastr: ToastrService,
     private readonly dialogRef: MatDialogRef<LoginComponent>,
-    private readonly formBuilder: FormBuilder) { }
+    private readonly formBuilder: UntypedFormBuilder) { }
 
   ngOnInit(): void {
 

@@ -28,7 +28,7 @@ import { MapComponent } from './components/shared/map/map.component';
 import { IconComponent } from './components/shared/icon/icon.component';
 import { DeleteTripPopupComponent } from './components/trips/trip-detail/delete-trip-popup/delete-trip-popup.component';
 import { UsersGateway } from './gateways/users.gateway';
-import { AuthGuard } from 'src/app/guards/auth-guard';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 import { AuthorizationService } from 'src/app/services/authorization.service';
 import { UniqueLoginValidator } from './validation/authentication-control-validation';
 import { AuthInterceptor } from './interceptors/auth-interceptor';

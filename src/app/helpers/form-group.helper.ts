@@ -1,8 +1,8 @@
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 
 export class FormGroupHelper {
 
-  static mapToModel(model: any, group: FormGroup): void {
+  static mapToModel(model: any, group: UntypedFormGroup): void {
 
     Object.keys(group.controls).forEach((key) => {
       model[key] = group.get(key).value;
