@@ -7,6 +7,7 @@ import { CreateAttractionComponent } from './components/attractions/create-attra
 import { MyAttractionsComponent } from './components/attractions/my-attractions/my-attractions.component';
 import { CreateEventComponent } from './components/events/create-event/create-event.component';
 import { EventDetailsComponent } from './components/events/event-details/event-details.component';
+import { EventRoomComponent } from './components/events/event-room/event-room.component';
 import { GetEventsComponent } from './components/events/get-events/get-events.component';
 import { HomeComponent } from './components/home/home.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
@@ -29,9 +30,10 @@ const routes: Routes = [
   { path: 'search/:type/:value', component: SearchComponent, title: 'Search' },
   { path: 'events/create', component: CreateEventComponent, title: 'Create Event' },
   { path: 'events/details/:id', canActivate: [AuthGuard], component: EventDetailsComponent, title: 'Event Details' },
+  { path: 'events/:id/room', canActivate: [AuthGuard], component: EventRoomComponent, title: 'Event room' },
   { path: 'settings', canActivate: [AuthGuard], component: UserSettingsComponent, title: 'User Settings' },
   { path: 'events/my', canActivate: [AuthGuard], component: GetEventsComponent, title: 'My Events' },
-  { path: '**', redirectTo: 'home', title: 'Home' }
+  { path: '**', redirectTo: 'events/2/room', title: 'Home' }
 ];
 
 @NgModule({

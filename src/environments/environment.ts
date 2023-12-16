@@ -5,8 +5,10 @@
 export const environment = {
   production: false,
   apiBaseUrl: "https://localhost:7073/api/",
-  cloudStorageUrl: "https://wolrdaroundstorage.blob.core.windows.net/",
-  localStorageUrl: "assets/user-images/"
+  // cloudStorageUrl: "https://wolrdaroundstorage.blob.core.windows.net/",
+  cloudStorageUrl: "http://127.0.0.1:10000/devstoreaccount1/",
+  localStorageUrl: "assets/user-images/",
+  sasToken: '?sv=2023-01-03&ss=btqf&srt=sco&spr=https%2Chttp&st=2023-12-02T11%3A40%3A00Z&se=2024-03-04T11%3A40%3A00Z&sp=rl&sig=qyhyAu6GixQeS4GiwlRz041wXFvnl%2FMQ%2FglQohCGJ7w%3D'
 };
 
 /*

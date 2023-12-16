@@ -1,0 +1,68 @@
+:host {
+    width: 100%;
+    height: 100%;
+
+    .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .users-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            overflow: auto;
+
+            app-user-card {
+                margin: 0 20px;
+            }
+        }
+
+        .sub-content {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            min-height: 600px;
+            margin-top: 20px;
+
+            &>div {
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                border-radius: 10px;
+
+                h3 {
+                    margin: 10px;
+                }
+            }
+
+            .attractions-trips {
+                width: 23%;
+            }
+
+            .chat {
+                width: 50%;
+            }
+
+            .instruments {
+                width: 23%;
+                height: max-content;
+
+                mat-form-field {
+                    width: 100%;
+                }
+
+                mat-list {
+                    max-height: 300px;
+                    overflow: auto;
+
+                }
+            }
+        }
+    }
+
+    ::ng-deep {
+        .instruments mat-list {
+            max-height: 300px;
+            overflow: auto;
+        }
+    }
+}

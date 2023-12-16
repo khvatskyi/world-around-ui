@@ -10,6 +10,6 @@ export class ImageUtility {
       return null;
     }
 
-    return UriUtility.createUri(environment.cloudStorageUrl,'images', encodeURI(imagePath));
+    return UriUtility.createUri(environment.cloudStorageUrl, 'images', encodeURI(imagePath + environment.sasToken));
   }
 }

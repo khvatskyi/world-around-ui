@@ -73,8 +73,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  onGoToChat(): void {
-    // this.router.navigate(['events/', { id: 7 }]);
+  onGoToRoom(): void {
+    this.router.navigate([`events/${this.id}/room/`]);
   }
 
   onPlaceClick(place: ChipItem) {

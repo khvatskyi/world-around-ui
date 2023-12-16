@@ -53,6 +53,9 @@ import { UserCardComponent } from './components/users/user-card/user-card.compon
 import { AddImageComponent } from './components/shared/add-image/add-image.component';
 import { CommentSectionComponent } from './components/shared/comment-section/comment-section.component';
 import { DeleteCommentPopupComponent } from './components/shared/comment-section/delete-comment-popup/delete-comment-popup.component';
+import { EventRoomComponent } from './components/events/event-room/event-room.component';
+import { EquipmentComponent } from './components/events/equipment/equipment.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +93,10 @@ import { DeleteCommentPopupComponent } from './components/shared/comment-section
     UserCardComponent,
     AddImageComponent,
     CommentSectionComponent,
-    DeleteCommentPopupComponent
+    DeleteCommentPopupComponent,
+    EventRoomComponent,
+    EquipmentComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

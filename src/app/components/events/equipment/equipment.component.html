@@ -1,0 +1,16 @@
+<div class="equipment-wrapper">
+    <mat-form-field>
+        <input [(ngModel)]="newEquipment" matInput placeholder="Type your equipment" (keyup.enter)="onAdd()">
+    </mat-form-field>
+    <mat-list>
+        <ng-template ngFor let-item [ngForOf]="equipments" let-i="index">
+            <mat-list-item>
+                <span>{{item.name}}</span>
+                <button mat-icon-button (click)="onDelete(item.id)">
+                    <mat-icon>delete_sweep</mat-icon>
+                </button>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </ng-template>
+    </mat-list>
+</div>

@@ -54,7 +54,7 @@
     <div class="join">
       <button *ngIf="!this.userIsParticipant; else goToChat" class="join-button" mat-button>JOIN</button>
       <ng-template #goToChat>
-        <span mat-button (click)="onGoToChat()">Go to chat</span>
+        <span mat-button (click)="onGoToRoom()">Go to room</span>
       </ng-template>
     </div>
   </div>

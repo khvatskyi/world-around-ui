@@ -1,0 +1,29 @@
+:host {
+    ::ng-deep {
+
+        mat-form-field {
+            width: 100%;
+        }
+
+        mat-list {
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        .mat-mdc-form-field-subscript-wrapper {
+            display: none;
+        }
+
+        .mat-mdc-list-item-unscoped-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .mdc-icon-button:hover {
+                .mat-icon {
+                    color: red;
+                }
+            }
+        }
+    }
+}
